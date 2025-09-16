@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A High-Speed European Whirlwind Tour</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 450px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .gemini-response {
+            background-color: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0.25rem;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black text-[#073B4C] mb-2">A High-Speed European Whirlwind</h1>
+            <p class="text-lg md:text-xl text-gray-600 mb-6">Your interactive AI-powered journey planner.</p>
+            <button id="aiAssistantBtn" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 transition-colors duration-300">
+                ✨ Ask Your AI Assistant
+            </button>
+        </header>
+
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 text-center">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <p class="text-6xl font-extrabold text-[#FF6B6B]">7</p>
+                <p class="text-lg font-semibold text-gray-700 mt-2">Countries Visited</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <p class="text-6xl font-extrabold text-[#FFD166]">11</p>
+                <p class="text-lg font-semibold text-gray-700 mt-2">Total Days</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <p class="text-6xl font-extrabold text-[#06D6A0]">~23</p>
+                <p class="text-lg font-semibold text-gray-700 mt-2">Hours on Trains</p>
+            </div>
+        </section>
+        
+        <section class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-16">
+            <div class="md:col-span-2 bg-white rounded-lg shadow-md p-6 flex flex-col justify-center">
+                <h2 class="text-2xl font-bold text-[#073B4C] mb-4 text-center">New Distribution of Days</h2>
+                <p class="text-gray-600 text-center mb-4">This updated chart reflects the new itinerary, allocating one day for Copenhagen, two for Switzerland, and keeping the final three days for the grand finale in Paris, with other stops adjusted accordingly.</p>
+            </div>
+            <div class="md:col-span-3 bg-white rounded-lg shadow-md p-6">
+                <div class="chart-container">
+                    <canvas id="daysDistributionChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-[#073B4C] text-center mb-8">Detailed Daily Itinerary</h2>
+            <div class="space-y-8 max-w-4xl mx-auto">
+                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#FF6B6B]">
+                    <h3 class="font-bold text-xl text-[#073B4C]">Day 1: Copenhagen 🇩🇰 (Arrival)</h3>
+                    <p class="text-gray-600 mt-2">
+                        <span class="font-semibold">Morning (7:00 AM):</span> Wake up, arrive in Copenhagen, drop bags at the hotel. <br>
+                        <span class="font-semibold">Day:</span> Explore Nyhavn, Rosenborg Castle, and Strøget. <br>
+                        <span class="font-semibold">Evening:</span> Dinner, followed by a visit to Tivoli Gardens. Head back to the hotel by 11:00 PM to rest.
+                    </p>
+                    <button class="suggest-activity-btn mt-4 bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors duration-200 text-sm" data-city="Copenhagen">✨ Suggest Activities</button>
+                    <div class="activity-suggestion-container mt-2"></div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#FFD166]">
+                    <h3 class="font-bold text-xl text-[#073B4C]">Day 2: Hamburg 🇩🇪 (Travel Day)</h3>
+                    <p class="text-gray-600 mt-2">
+                        <span class="font-semibold">Morning (7:00 AM):</span> Wake up, have breakfast, and check out of your hotel. <br>
+                        <span class="font-semibold">Train:</span> Take an <span class="font-bold">~8:00 AM train</span> from Copenhagen to Hamburg (arrives ~1:00 PM). <br>
+                        <span class="font-semibold">Afternoon:</span> Check into your Hamburg hotel (after 2:00 PM). Explore the Speicherstadt. <br>
+                        <span class="font-semibold">Evening:</span> Dinner in HafenCity. Back to hotel by 11:30 PM.
+                    </p>
+                    <button class="suggest-activity-btn mt-4 bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors duration-200 text-sm" data-city="Hamburg">✨ Suggest Activities</button>
+                    <div class="activity-suggestion-container mt-2"></div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#06D6A0]">
+                    <h3 class="font-bold text-xl text-[#073B4C]">Day 3: Amsterdam 🇳🇱 (Travel Day)</h3>
+                     <p class="text-gray-600 mt-2">
+                        <span class="font-semibold">Morning (6:30 AM):</span> Wake up early, have breakfast, and check out of your hotel. <br>
+                        <span class="font-semibold">Train:</span> Take a <span class="font-bold">~7:30 AM train</span> from Hamburg to Amsterdam (arrives ~1:00 PM). <br>
+                        <span class="font-semibold">Afternoon:</span> Drop bags at the hotel, have lunch, and take a canal cruise. Check in after 3:00 PM. <br>
+                        <span class="font-semibold">Evening:</span> Explore and dine in the Jordaan district.
+                    </p>
+                    <button class="suggest-activity-btn mt-4 bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors duration-200 text-sm" data-city="Amsterdam" data-context="arrival day">✨ Suggest Activities</button>
+                    <div class="activity-suggestion-container mt-2"></div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#06D6A0]">
+                    <h3 class="font-bold text-xl text-[#073B4C]">Day 4: Amsterdam 🇳🇱 (Full Day)</h3>
+                    <p class="text-gray-600 mt-2">
+                        <span class="font-semibold">Morning (7:00 AM):</span> Wake up and visit the Rijksmuseum or Van Gogh Museum. <br>
+                        <span class="font-semibold">Afternoon:</span> Visit the Anne Frank House (pre-booked) and explore the 9 Streets. <br>
+                        <span class="font-semibold">Evening:</span> Enjoy a traditional Dutch dinner.
+                    </p>
+                    <button class="suggest-activity-btn mt-4 bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors duration-200 text-sm" data-city="Amsterdam">✨ Suggest Activities</button>
+                    <div class="activity-suggestion-container mt-2"></div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#118AB2]">
+                    <h3 class="font-bold text-xl text-[#073B4C]">Day 5: Brussels 🇧🇪 (Travel Day)</h3>
+                    <p class="text-gray-600 mt-2">
+                        <span class="font-semibold">Morning (8:00 AM):</span> Leisurely wake up, check out by 10:00 AM. <br>
+                        <span class="font-semibold">Train:</span> Take a <span class="font-bold">~11:00 AM train</span> from Amsterdam to Brussels (arrives ~1:00 PM). <br>
+                        <span class="font-semibold">Afternoon:</span> Check into your hotel. Walk to the Grand-Place and see the Manneken Pis. <br>
+                        <span class="font-semibold">Evening:</span> Indulge in mussels, waffles, and chocolate.
+                    </p>
+                    <button class="suggest-activity-btn mt-4 bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors duration-200 text-sm" data-city="Brussels">✨ Suggest Activities</button>
+                    <div class="activity-suggestion-container mt-2"></div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#FF6B6B]">
+                    <h3 class="font-bold text-xl text-[#073B4C]">Day 6: Luxembourg 🇱🇺 (Travel Day)</h3>
+                    <p class="text-gray-600 mt-2">
+                        <span class="font-semibold">Morning (8:00 AM):</span> Wake up, check out of your hotel. <br>
+                        <span class="font-semibold">Train:</span> Take a <span class="font-bold">~10:00 AM train</span> from Brussels to Luxembourg (arrives ~1:00 PM). <br>
+                        <span class="font-semibold">Afternoon:</span> Check in and explore the Bock Casemates and Chemin de la Corniche. <br>
+                        <span class="font-semibold">Evening:</span> Dinner in the Grund district.
+                    </p>
+                    <button class="suggest-activity-btn mt-4 bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors duration-200 text-sm" data-city="Luxembourg">✨ Suggest Activities</button>
+                    <div class="activity-suggestion-container mt-2"></div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#FFD166]">
+                    <h3 class="font-bold text-xl text-[#073B4C]">Day 7: Basel 🇨🇭 (Travel Day)</h3>
+                    <p class="text-gray-600 mt-2">
+                        <span class="font-semibold">Morning (7:30 AM):</span> Wake up, check out of your hotel. <br>
+                        <span class="font-semibold">Train:</span> Take a <span class="font-bold">~9:00 AM train</span> from Luxembourg to Basel (arrives ~1:00 PM). <br>
+                        <span class="font-semibold">Afternoon:</span> Check into your hotel and explore Basel's Old Town and the Rhine. <br>
+                        <span class="font-semibold">Evening:</span> Enjoy a hearty Swiss dinner.
+                    </p>
+                    <button class="suggest-activity-btn mt-4 bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors duration-200 text-sm" data-city="Basel" data-context="arrival day">✨ Suggest Activities</button>
+                    <div class="activity-suggestion-container mt-2"></div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#FFD166]">
+                    <h3 class="font-bold text-xl text-[#073B4C]">Day 8: Basel 🇨🇭 (Full Day)</h3>
+                    <p class="text-gray-600 mt-2">
+                        <span class="font-semibold">Morning (7:00 AM):</span> Wake up for a full day in Switzerland. Consider a short trip to see nearby nature or visit the Basel Minster and local museums. <br>
+                        <span class="font-semibold">Afternoon:</span> Continue exploring the city's art scene or relax by the river. <br>
+                        <span class="font-semibold">Evening:</span> Enjoy a final Swiss meal.
+                    </p>
+                    <button class="suggest-activity-btn mt-4 bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors duration-200 text-sm" data-city="Basel">✨ Suggest Activities</button>
+                    <div class="activity-suggestion-container mt-2"></div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#06D6A0]">
+                    <h3 class="font-bold text-xl text-[#073B4C]">Day 9: Paris 🇫🇷 (Travel Day)</h3>
+                     <p class="text-gray-600 mt-2">
+                        <span class="font-semibold">Morning (8:00 AM):</span> Enjoy a final Swiss breakfast and check out. <br>
+                        <span class="font-semibold">Train:</span> Take a <span class="font-bold">~10:30 AM train</span> from Basel to Paris (arrives ~1:30 PM). <br>
+                        <span class="font-semibold">Afternoon:</span> Check into your hotel near Gare de Lyon. <br>
+                        <span class="font-semibold">Evening:</span> Head to Trocadéro for Eiffel Tower views, then take a Seine cruise.
+                    </p>
+                    <button class="suggest-activity-btn mt-4 bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors duration-200 text-sm" data-city="Paris" data-context="arrival evening">✨ Suggest Activities</button>
+                    <div class="activity-suggestion-container mt-2"></div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#06D6A0]">
+                    <h3 class="font-bold text-xl text-[#073B4C]">Days 10-11: Paris 🇫🇷 (Full Days & Departure)</h3>
+                     <p class="text-gray-600 mt-2">
+                        <span class="font-semibold">Day 10:</span> Wake up at 7:00 AM. Visit the Louvre, walk the Champs-Élysées to the Arc de Triomphe, and have dinner in Montmartre. <br>
+                        <span class="font-semibold">Day 11:</span> Wake up at 7:00 AM. See Notre-Dame and Sainte-Chapelle. Enjoy a final lunch before heading to the airport for departure.
+                    </p>
+                    <button class="suggest-activity-btn mt-4 bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors duration-200 text-sm" data-city="Paris">✨ Suggest Activities</button>
+                    <div class="activity-suggestion-container mt-2"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-[#073B4C] text-center mb-8">Hotel Recommendations</h2>
+             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="font-bold text-xl text-[#073B4C] mb-4">Copenhagen 🇩🇰</h3>
+                    <p class="mb-2"><span class="font-semibold">💰 Budget:</span> Steel House Copenhagen</p>
+                    <p class="mb-2"><span class="font-semibold">🏨 Mid-Range:</span> Axel Guldsmeden</p>
+                    <p><span class="font-semibold">⭐ Luxury:</span> Nimb Hotel</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="font-bold text-xl text-[#073B4C] mb-4">Hamburg 🇩🇪</h3>
+                    <p class="mb-2"><span class="font-semibold">💰 Budget:</span> Generator Hamburg</p>
+                    <p class="mb-2"><span class="font-semibold">🏨 Mid-Range:</span> Reichshof Hotel Hamburg</p>
+                    <p><span class="font-semibold">⭐ Luxury:</span> Park Hyatt Hamburg</p>
+                </div>
+                 <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="font-bold text-xl text-[#073B4C] mb-4">Amsterdam 🇳🇱</h3>
+                    <p class="mb-2"><span class="font-semibold">💰 Budget:</span> The Flying Pig Downtown</p>
+                    <p class="mb-2"><span class="font-semibold">🏨 Mid-Range:</span> Park Plaza Victoria</p>
+                    <p><span class="font-semibold">⭐ Luxury:</span> Kimpton De Witt</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="font-bold text-xl text-[#073B4C] mb-4">Brussels 🇧🇪</h3>
+                    <p class="mb-2"><span class="font-semibold">💰 Budget:</span> Meininger Gare du Midi</p>
+                    <p class="mb-2"><span class="font-semibold">🏨 Mid-Range:</span> Pullman Centre Midi</p>
+                    <p><span class="font-semibold">⭐ Luxury:</span> The Hotel Brussels</p>
+                </div>
+                 <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="font-bold text-xl text-[#073B4C] mb-4">Luxembourg 🇱🇺</h3>
+                    <p class="mb-2"><span class="font-semibold">💰 Budget:</span> ibis Styles Centre Gare</p>
+                    <p class="mb-2"><span class="font-semibold">🏨 Mid-Range:</span> Park Inn by Radisson City</p>
+                    <p><span class="font-semibold">⭐ Luxury:</span> Le Royal Hotels & Resorts</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="font-bold text-xl text-[#073B4C] mb-4">Basel 🇨🇭</h3>
+                    <p class="mb-2"><span class="font-semibold">💰 Budget:</span> Community Hostel by Hyve</p>
+                    <p class="mb-2"><span class="font-semibold">🏨 Mid-Range:</span> Mövenpick Hotel Basel</p>
+                    <p><span class="font-semibold">⭐ Luxury:</span> Grand Hotel Les Trois Rois</p>
+                </div>
+                 <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-3">
+                    <h3 class="font-bold text-xl text-center text-[#073B4C] mb-4">Paris 🇫🇷 (near Gare de Lyon)</h3>
+                     <div class="grid grid-cols-1 sm:grid-cols-3 text-center">
+                        <p class="mb-2 sm:mb-0"><span class="font-semibold">💰 Budget:</span> The People - Paris Bercy</p>
+                        <p class="mb-2 sm:mb-0"><span class="font-semibold">🏨 Mid-Range:</span> CitizenM Paris Gare de Lyon</p>
+                        <p><span class="font-semibold">⭐ Luxury:</span> Cour des Vosges</p>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-[#073B4C] mb-2 text-center">Train Travel Duration</h2>
+                <p class="text-gray-600 text-center mb-4">This chart compares the approximate time spent on trains between each city. The longer initial journeys are clustered, followed by a series of shorter, more manageable trips through central Europe.</p>
+                <div class="chart-container">
+                    <canvas id="travelTimeChart"></canvas>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-[#073B4C] mb-2 text-center">Time Allocation per Country</h2>
+                <p class="text-gray-600 text-center mb-4">This bubble chart visualizes the number of days in each destination under the new plan. The size of each bubble corresponds to the length of the stay, highlighting the extended stays in France, Switzerland, and the Netherlands.</p>
+                <div class="chart-container">
+                    <canvas id="daysBubbleChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- AI Assistant Modal -->
+    <div id="aiModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col">
+            <div class="p-4 border-b flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-[#073B4C]">✨ AI Itinerary Assistant</h2>
+                <button id="closeModalBtn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+            </div>
+            <div id="chatContainer" class="p-6 overflow-y-auto flex-grow">
+                <!-- Chat messages will be appended here -->
+                <div class="bg-blue-100 p-3 rounded-lg self-start max-w-lg">
+                    <p class="text-sm">Hello! How can I help you plan your European adventure? Ask me for food recommendations, activity ideas, or travel tips for your destinations.</p>
+                </div>
+            </div>
+            <div class="p-4 border-t bg-gray-50">
+                <div id="modal-loader" class="hidden items-center justify-center mb-2">
+                     <div class="loader"></div>
+                     <p class="ml-2 text-gray-600">Thinking...</p>
+                </div>
+                <div class="flex">
+                    <input type="text" id="userInput" class="flex-grow border rounded-l-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., 'Suggest a vegetarian restaurant in Hamburg'">
+                    <button id="sendMessageBtn" class="bg-blue-600 text-white font-bold px-6 rounded-r-lg hover:bg-blue-700 transition-colors">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const apiKey = "";
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+        async function callGeminiAPI(prompt) {
+            try {
+                const payload = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                };
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) {
+                    throw new Error(`API call failed with status: ${response.status}`);
+                }
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    return candidate.content.parts[0].text;
+                }
+                return "I'm sorry, I couldn't generate a response. Please try again.";
+            } catch (error) {
+                console.error("Gemini API call error:", error);
+                return "There was an error connecting to the AI assistant. Please check the console for details.";
+            }
+        }
+
+        document.querySelectorAll('.suggest-activity-btn').forEach(button => {
+            button.addEventListener('click', async () => {
+                const city = button.dataset.city;
+                const context = button.dataset.context || 'a full day';
+                const container = button.nextElementSibling;
+                
+                button.disabled = true;
+                button.innerHTML = '<div class="loader mx-auto"></div>';
+
+                const prompt = `You are a travel expert. Provide a short, bulleted list of 2-3 unique and interesting activity suggestions for a tourist spending ${context} in ${city}. Focus on activities beyond the most obvious ones. Format the output as a simple HTML list.`;
+                
+                const suggestions = await callGeminiAPI(prompt);
+                
+                container.innerHTML = `<div class="gemini-response">${suggestions}</div>`;
+                button.style.display = 'none';
+            });
+        });
+
+        const aiModal = document.getElementById('aiModal');
+        const aiAssistantBtn = document.getElementById('aiAssistantBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const userInput = document.getElementById('userInput');
+        const chatContainer = document.getElementById('chatContainer');
+        const modalLoader = document.getElementById('modal-loader');
+
+        aiAssistantBtn.addEventListener('click', () => aiModal.classList.remove('hidden'));
+        closeModalBtn.addEventListener('click', () => aiModal.classList.add('hidden'));
+        userInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                sendMessageBtn.click();
+            }
+        });
+
+        sendMessageBtn.addEventListener('click', async () => {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            appendMessage(message, 'user');
+            userInput.value = '';
+            modalLoader.classList.remove('hidden');
+            sendMessageBtn.disabled = true;
+
+            const prompt = `You are a helpful European travel expert providing advice for a person on an 11-day whirlwind tour. Based on the itinerary (Copenhagen, Hamburg, Amsterdam, Brussels, Luxembourg, Basel, Paris), answer the following user question concisely: "${message}"`;
+            const response = await callGeminiAPI(prompt);
+            
+            modalLoader.classList.add('hidden');
+            sendMessageBtn.disabled = false;
+            appendMessage(response, 'gemini');
+        });
+
+        function appendMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            const textNode = document.createElement('p');
+            textNode.innerHTML = text.replace(/\n/g, '<br>'); // Simple formatting
+            textNode.className = 'text-sm';
+
+            if (sender === 'user') {
+                messageDiv.className = 'bg-gray-200 p-3 rounded-lg self-end max-w-lg ml-auto mb-2';
+            } else {
+                messageDiv.className = 'bg-blue-100 p-3 rounded-lg self-start max-w-lg mb-2';
+            }
+            
+            messageDiv.appendChild(textNode);
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        const wrapLabel = (label) => {
+            const maxLength = 16;
+            if (label.length <= maxLength) { return label; }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) { lines.push(currentLine.trim()); }
+            return lines;
+        };
+        
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            return Array.isArray(label) ? label.join(' ') : label;
+        };
+
+        const chartColors = ['#FF6B6B', '#FFD166', '#06D6A0', '#118AB2', '#073B4C', '#782ab5', '#ff9f40'];
+        
+        new Chart(document.getElementById('daysDistributionChart').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Denmark', 'Germany', 'Netherlands', 'Belgium', 'Luxembourg', 'Switzerland', 'France'],
+                datasets: [{
+                    label: 'Days Spent', data: [1, 1, 2, 1, 1, 2, 3],
+                    backgroundColor: chartColors, borderColor: '#f8fafc', borderWidth: 4, hoverOffset: 8
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 14, family: 'Inter'}, color: '#073B4C'}}, tooltip: { callbacks: { title: tooltipTitleCallback }}}}
+        });
+
+        const travelLabels = ['Copenhagen to Hamburg', 'Hamburg to Amsterdam', 'Amsterdam to Brussels', 'Brussels to Luxembourg', 'Luxembourg to Basel', 'Basel to Paris'];
+        new Chart(document.getElementById('travelTimeChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: travelLabels.map(wrapLabel),
+                datasets: [{
+                    label: 'Approx. Hours', data: [5, 5.5, 2, 3, 4, 3],
+                    backgroundColor: chartColors.slice(0, 6), borderColor: chartColors.slice(0, 6).map(c => c + 'B3'), borderWidth: 1, borderRadius: 4
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { beginAtZero: true, grid: { color: '#e2e8f0' }, ticks: { color: '#475569' }}, y: { grid: { display: false }, ticks: { color: '#475569' }}}, plugins: { legend: { display: false }, tooltip: { callbacks: { title: tooltipTitleCallback }}}}
+        });
+
+        new Chart(document.getElementById('daysBubbleChart').getContext('2d'), {
+            type: 'bubble',
+            data: {
+                 labels: ['Denmark', 'Germany', 'Netherlands', 'Belgium', 'Luxembourg', 'Switzerland', 'France'],
+                datasets: [
+                    { label: 'Denmark', data: [{x: 1, y: 3, r: 10}], backgroundColor: '#FF6B6B' },
+                    { label: 'Germany', data: [{x: 2, y: 2, r: 10}], backgroundColor: '#FFD166' },
+                    { label: 'Netherlands', data: [{x: 3, y: 4, r: 20}], backgroundColor: '#06D6A0' },
+                    { label: 'Belgium', data: [{x: 4, y: 1, r: 10}], backgroundColor: '#118AB2' },
+                    { label: 'Luxembourg', data: [{x: 5, y: 3, r: 10}], backgroundColor: '#073B4C' },
+                    { label: 'Switzerland', data: [{x: 6, y: 2.5, r: 20}], backgroundColor: '#782ab5' },
+                    { label: 'France', data: [{x: 7, y: 3.5, r: 30}], backgroundColor: '#ff9f40' }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false, scales: { x: { display: false }, y: { display: false }}, plugins: { legend: { position: 'bottom', labels: { font: { size: 12, family: 'Inter' }, color: '#073B4C' }}, tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.raw.r / 10} day(s)`, title: () => '' }}}}
+        });
+    </script>
+
+</body>
+</html>
